@@ -38,14 +38,14 @@ This is another paragraph with _italic_ text and `code` here
         )
 
     def test_markdown_to_html_heading1(self):
-        md = "# Heading 1"
+        md = "# Heading 1 **With some bold text**"
 
         node = markdown_to_html_node(md)
         html = node.to_html()
         # print(node.to_html())
         self.assertEqual(
             html,
-        "<div><h1>Heading 1</h1></div>",
+            "<div><h1>Heading 1 <b>With some bold text</b></h1></div>",
         )
 
     def test_markdown_to_html_heading2(self):
@@ -71,4 +71,17 @@ the **same** even with inline stuff
         self.assertEqual(
                 html,
         "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
+        )
+
+    def test_markdown_to_unordered_list(self):
+        md = """
+- List item 1 **Bold!**
+- List item 2
+- List item 3
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+                html,
+        "<div><ul><li>List item 1 <b>Bold!</b></li><li>List item 2</li><li>List item 3</li></ul></div>",
         )
