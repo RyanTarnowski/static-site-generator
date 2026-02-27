@@ -85,3 +85,16 @@ the **same** even with inline stuff
                 html,
         "<div><ul><li>List item 1 <b>Bold!</b></li><li>List item 2</li><li>List item 3</li></ul></div>",
         )
+
+    def test_markdown_to_ordered_list(self):
+        md = """
+1. List item 1 **Bold!**
+2. List item 2
+3. List item 3
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+                html,
+        "<div><ol><li>List item 1 <b>Bold!</b></li><li>List item 2</li><li>List item 3</li></ol></div>",
+        )

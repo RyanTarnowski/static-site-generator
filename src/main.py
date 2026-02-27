@@ -1,8 +1,10 @@
-from textnode import TextNode, TextType
+from file_setup import setup_public
 
 def main():
-    test_textnode = TextNode("this is some  anchor test", TextType.LINK, "http://www.boot.dev")
-    print(test_textnode)
+    setup_public()
+
+
+
 
 if __name__ == "__main__":
     main()

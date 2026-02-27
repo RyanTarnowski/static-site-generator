@@ -59,8 +59,7 @@ def strip_block_type(block, block_type):
         case BlockType.UNORDERED_LIST:
             return re.sub(r"(- )", "", block)
         case BlockType.ORDERED_LIST:
-            # TODO: Figure out the regex for the order list 
-            return re.sub("() ", "", block)
+            return re.sub(r"([0-9]+. )", "", block)
         case _:
             raise TypeError("Block type not recongnized")
 
