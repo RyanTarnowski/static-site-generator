@@ -1,6 +1,8 @@
-from blockhelpers import markdown_to_blocks, block_to_block_type, strip_block_type, get_heading_size, BlockType
+from blockhelpers import markdown_to_blocks, block_to_block_type, strip_block_type, get_heading_size, get_title, BlockType
 from htmlnode import LeafNode, ParentNode
 from nodehelpers import text_to_textnodes
+from file_setup import setup_public
+import os
 
 def markdown_to_html_node(markdown):
     blocks = markdown_to_blocks(markdown)
@@ -85,7 +87,27 @@ def markdown_to_html_node(markdown):
 
     return ParentNode("div", child_nodes)        
 
+def generate_page(from_path, template_path, dest_path):
+    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
+    
+    with open(from_path, 'r', encoding='utf-8') as f:
+        content = f.read()
 
+    with open(template_path, 'r', encoding='utf-8') as f:
+        template = f.read()
 
+    html_content = markdown_to_html_node(content).to_html()
+    title = get_title(content)
+    
+    template = template.replace("{{ Title }}", title)
+    template = template.replace("{{ Content }}", html_content)
 
+    print("Setting up public folder")
+    setup_public()
 
+    index_path = os.path.join(dest_path, "index.html")
+
+    with open(index_path, 'w') as f:
+        f.write(template)
+
+    print("Page generation complete") 

@@ -1,5 +1,5 @@
 import unittest
-from blockhelpers import markdown_to_blocks, block_to_block_type, BlockType
+from blockhelpers import markdown_to_blocks, block_to_block_type, get_title, BlockType
 
 class BlockHelpers(unittest.TestCase):
     def test_markdown_to_blocks(self):
@@ -120,6 +120,37 @@ this is more code...
         block_type = block_to_block_type(block)
         self.assertEqual(block_type, BlockType.CODE)
 
+    def test_get_title(self):
+        block = """# Tolkien Fan Club
+
+![JRR Tolkien sitting](/images/tolkien.png)
+
+Here's the deal, **I like Tolkien**.
+
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien
+
+## Blog posts
+"""
+        title = get_title(block)
+        self.assertEqual(title, "Tolkien Fan Club")
 
 
+    def test_get_title_empty(self):
+        block = """## Tolkien Fan Club
+
+![JRR Tolkien sitting](/images/tolkien.png)
+
+Here's the deal, **I like Tolkien**.
+
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien
+
+## Blog posts
+"""
+        # title = get_title(block)
+        with self.assertRaises(TypeError):
+            title = get_title(block)
 

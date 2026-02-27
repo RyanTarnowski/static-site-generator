@@ -1,7 +1,8 @@
-from file_setup import setup_public
+from htmlhelpers import generate_page
 
 def main():
-    setup_public()
+    #NOTE:Paths here need to be relative the the main.sh file which lives up one level from src
+    generate_page("content/index.md", "template.html", "public/")
 
 
 

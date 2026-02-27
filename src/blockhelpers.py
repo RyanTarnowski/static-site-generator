@@ -69,3 +69,11 @@ def get_heading_size(block):
         return len(matches[0])
     else:
         raise TypeError("Was not able to determine heading size")
+
+def get_title(block):
+    matches = re.search(r"^# .*", block)
+    if matches:
+        title = strip_block_type(matches[0], BlockType.HEADING)
+        return title.strip()
+    else:
+        raise TypeError("Was not able to find title")
