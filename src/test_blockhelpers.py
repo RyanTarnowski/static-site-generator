@@ -96,6 +96,15 @@ This is block two
 > And one more"""
         block_type = block_to_block_type(block)
         self.assertEqual(block_type, BlockType.QUOTE)
+    
+    def test_block_to_block_type_quotes_2(self):
+        block = """> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien
+"""
+        block_type = block_to_block_type(block)
+        self.assertEqual(block_type, BlockType.QUOTE)
+
 
     def test_block_to_block_type_unordered_list(self):
         block = """- list item 1

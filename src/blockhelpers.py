@@ -28,7 +28,7 @@ def block_to_block_type(block):
     for line in lines:
         if re.match(r"^(#)\1{0,5} ", line):
             type_matches[BlockType.HEADING] += 1 
-        if re.match(r"^(> )", line):
+        if re.match(r"^(>)", line):
             type_matches[BlockType.QUOTE] += 1
         if re.match(r"^(- )", line):
             type_matches[BlockType.UNORDERED_LIST] += 1
@@ -51,7 +51,7 @@ def block_to_block_type(block):
 def strip_block_type(block, block_type):
     match block_type:
         case BlockType.QUOTE:
-            return re.sub(r"(> )", "", block)
+            return re.sub(r"(> )|(>)", "", block)
         case BlockType.HEADING:
             return re.sub(r"(#)\1{0,5} ", "", block)
         case BlockType.CODE:

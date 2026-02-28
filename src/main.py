@@ -1,11 +1,7 @@
-from htmlhelpers import generate_page
+from file_setup import generate_content
 
 def main():
-    #NOTE:Paths here need to be relative the the main.sh file which lives up one level from src
-    generate_page("content/index.md", "template.html", "public/")
-
-
-
+    generate_content()
 
 if __name__ == "__main__":
     main()
