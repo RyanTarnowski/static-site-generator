@@ -5,18 +5,15 @@ from htmlhelpers import generate_page
     # It should first delete all the contents of the destination directory (public) to ensure that the copy is clean.
     # It should copy all files and subdirectories, nested files, etc.
     # I recommend logging the path of each file you copy, so you can see what's happening as you run and debug your code.
-def setup_public():
-    public_path = "public/"
-    static_path = "static/"
+def setup_public(publicpath, staticpath):
+    if os.path.isdir(publicpath):
+        shutil.rmtree(publicpath)
 
-    if os.path.isdir(public_path):
-        shutil.rmtree(public_path)
-
-    os.mkdir(public_path)
+    os.mkdir(publicpath)
     
-    if os.path.isdir(static_path): 
-        for item in os.listdir(static_path):
-            copy_tree(item, static_path, public_path)
+    if os.path.isdir(staticpath): 
+        for item in os.listdir(staticpath):
+            copy_tree(item, staticpath, publicpath)
 
 def copy_tree(name, src, dst):
     src_path = os.path.join(src, name)
@@ -31,25 +28,22 @@ def copy_tree(name, src, dst):
     for item in os.listdir(src_path):
         copy_tree(item, src_path, dst_path)
 
-def generate_content():
-    public_path = "public/"
-    content_path = "content/"
-
+def generate_content(publicpath, contentpath, staticpath, basepath):
     print("Setting up public folder")
-    setup_public()
+    setup_public(publicpath, staticpath)
     
-    if os.path.isdir(content_path):
-        for item in os.listdir(content_path):
-            generate_page_tree(item, content_path, public_path)
+    if os.path.isdir(contentpath):
+        for item in os.listdir(contentpath):
+            generate_page_tree(item, contentpath, publicpath, basepath)
 
-def generate_page_tree(name, src, dst):
+def generate_page_tree(name, src, dst, basepath):
     src_path = os.path.join(src, name)
     dst_path = os.path.join(dst, name)
     if os.path.isfile(src_path):
-        generate_page(src_path, "template.html", dst)
+        generate_page(src_path, "template.html", dst, basepath)
         return
 
     os.makedirs(dst_path, exist_ok=True)
     print(f"mkdir: {dst_path}") 
     for item in os.listdir(src_path):
-        generate_page_tree(item, src_path, dst_path)
+        generate_page_tree(item, src_path, dst_path, basepath)

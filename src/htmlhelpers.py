@@ -86,7 +86,7 @@ def markdown_to_html_node(markdown):
 
     return ParentNode("div", child_nodes)        
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     
     with open(from_path, 'r', encoding='utf-8') as f:
@@ -99,6 +99,8 @@ def generate_page(from_path, template_path, dest_path):
     title = get_title(content)
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html_content)
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
     index_path = os.path.join(dest_path, "index.html")
 
     with open(index_path, 'w') as f:
